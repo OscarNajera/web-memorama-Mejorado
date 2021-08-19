@@ -1,0 +1,99 @@
+html{
+	font-size: 62.5%;
+	box-sizing: border-box;
+	color: white;
+}
+
+*,*:before,*:after{
+		box-sizing: inherit;
+        margin:0px;
+        padding:0px;
+}
+
+body{
+	font-size: 16px;
+	background-color: #000;
+}
+
+.contenedor{
+	margin:2rem   auto;
+	width: 95%;
+}
+
+.herramientas{
+	display: flex;
+	justify-content: space-between;
+}
+
+
+.contenedor{
+	text-align: center;
+
+}
+
+.contenido-img{
+	text-align: center;
+	margin: 25px 0 auto;
+}
+
+.input-file{
+	margin-bottom : 2rem;
+}
+/*------------------------------Carta*/
+.ver_img{
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+
+}
+ 
+
+.carta-box {
+  flex-basis:  20%  ;
+  width: 100px;
+  height: 200px;
+  position: relative;
+  perspective: 1000px;
+  margin-bottom: 1rem;
+}
+	
+.carta-box:hover .carta {
+    transform: rotateY(180deg);
+}
+
+.carta {
+    transform-style: preserve-3d;
+    transition: all 0.5s linear;
+  	width: 120px;
+	height: 200px;
+	margin: 0 auto;
+}
+
+.cara img{
+    max-width: 100%;	
+  	max-width: 100%;
+	width: 100px;
+	height: 200px;
+	border-radius: 10px;
+ 
+}
+.cara {
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.cara.detras {
+  transform: rotateY(180deg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
