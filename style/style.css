@@ -56,10 +56,13 @@ body{
   perspective: 1000px;
   margin-bottom: 1rem;
 }
-	
+
 .carta-box:hover .carta {
     transform: rotateY(180deg);
 }
+
+
+
 
 .carta {
     transform-style: preserve-3d;
