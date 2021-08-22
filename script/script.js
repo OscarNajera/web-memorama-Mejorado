@@ -7,8 +7,20 @@ const rango =  document.getElementById('rango');
 const color =  document.getElementById('color');
 const fondo =  document.getElementById('fondo');
 
+const verImg= document.getElementById('ver-img');
+
+ 
+
+let contadorIntentos=0;
+let contadorPuntos=0;
+let contadorCartas=0;
+let contadorAciertos=0;
+ 
 
 
+
+
+////////////////////////////////////////////carga de imagenes inicio 
 cargarImg.addEventListener('change', (e) => {
 	const  archivos=  e.target.files;						//variable que contiene lso ficheros
     const fragment =  document.createDocumentFragment();	//variable para realizar fragmento de html y posterior mente incorporarlo (optimizacion)
@@ -16,14 +28,15 @@ cargarImg.addEventListener('change', (e) => {
     replica.push(...archivos,...archivos);					//se pasan 2 veces el valor de los archivos
     const replicaaleatoria = aleatoriox(replica);			//esta avriable revuelve el contenido de un array		
 
+    
 
     for(let archivo of replicaaleatoria   ){
 
-    	let xfiltro= filtro(archivo.name);               //filtro exclusivo para imagenes
+    	let xfiltro= filtro(archivo.name);                  //filtro exclusivo para imagenes
     	if (xfiltro) {
+    		contadorCartas++;
 
-
-	    	let leerArchivo=new FileReader();            //instanciamos la funcion de lectura de archivo
+	    	let leerArchivo=new FileReader();               //instanciamos la funcion de lectura de archivo
 
 
 	    									//crearemos las etiquetas que contendran el efeto de carata
@@ -49,11 +62,12 @@ cargarImg.addEventListener('change', (e) => {
 			img.setAttribute('src', e.target.result);
 			img.setAttribute('alt', archivo.name);
 
-			console.log('-nombre del archivo',archivo.name)
+			//console.log('-nombre del archivo',archivo.name)
 			})
 
 											//añadimos las respectivas etiquetas a sus complementos 
 			imgf.setAttribute('src', 'https://asturias24.es/wp-content/plugins/pepeTarot/img/carta.png')
+			imgf.setAttribute('alt', "oculto");
 			cara.appendChild(imgf);
 			detras.appendChild(img);
 			carta.appendChild(cara);
@@ -64,10 +78,13 @@ cargarImg.addEventListener('change', (e) => {
 			fragment.appendChild(cartaBox)					 //se añaden todas las imagenes al fragmento
 	    
     	}
-    	else{ console.log("archivo no valido");  }
+    	else{ //console.log("archivo no valido");
+    	  }
 
 
     }
+    contadorCartas /= 2;
+
 
     verimg.appendChild(fragment)					 //se añade el fragmento creado con todas las imagenes (optimizacion)
 
@@ -75,14 +92,14 @@ cargarImg.addEventListener('change', (e) => {
 
 
 rango.addEventListener("input" , (e)=>{
-	console.log(' e = ' ,e.target.value);
+	//console.log(' e = ' ,e.target.value);
 	let ancho= e.target.value; 
 	verimg.style.width = `${ancho}%`;
 })
 
 
 color.addEventListener('input', (e) =>{
-	console.log('color = #', e.target.value);
+	//console.log('color = #', e.target.value);
 	let  xce=e.target.value;
 	fondo.style.backgroundColor = xce;
 })
@@ -93,12 +110,12 @@ color.addEventListener('input', (e) =>{
 
 const  filtro = (x)=>{
 	
-	let formatos= /(\.jpg|\.png|\.bmp|\.gif|\.jpeg|\.svg|\.tiff|\.ico|\.eps|\.svg)/gmi;
+	let formatos= /(\.jpg|\.png|\.bmp|\.gif|\.jpeg|\.svg|\.tiff|\.ico|\.eps|\.svg|\.webp)/gmi;
 	let valida = formatos.test(x);
-
-
 	return valida
 }
+
+///carga de imagenes FIN 
 
 
 
@@ -119,4 +136,99 @@ const aleatoriox = (e)=>{
 } 
 
 
+///////////////////////////////////////////////////Busqueda de pares  
+
+let contador =0;											//contador de clicks en las cartas 1° click muestra una carta 2° muestra y compara con la primera 
+let compara=[];												//almacena la informacion delas cartas para posteriormente compararlas
+let siguiente=false;										
+let cartaEfecto=[];											//Almacena las cartas seleccionadas y les poporciona el efecto de volteo
+
+verImg.addEventListener('click', (e)=>{
+    
+    
+    if (e.target.alt == 'oculto') {
+
+		//console.log(e.target.src)
+		e.target.parentElement.parentElement.classList.add('voltear');
+		cartaEfecto[contador]=e.target.parentElement.parentElement;
+
+		//console.log("----**",cartaEfecto[contador].innerHTML)
+
+		if(contador ==  0){									//primer click en las cartas 
+			compara[contador]=e.target.parentElement.parentElement.childNodes[1].childNodes[0].alt; //busca la informacion del elemento primo
+			//console.log('valor 1 = ' + compara[contador]);
+			contador++;
+		}
+		else{
+			contadorIntentos++;							
+										//segundo click en las cartas
+
+			 
+										
+			compara[contador]=e.target.parentElement.parentElement.childNodes[1].childNodes[0].alt;	//busca la informacion del elemento primo
+			//console.log('valor 1 = ' + compara[contador]);
+			contador=0;
+			siguiente =comparar(compara[0] , compara[1] );
+
+ 			animacion('cargando');
+										//valida si son pares si son pares 
+
+
+			if( siguiente ){	
+				contadorAciertos++;
+				animacion('par');	
+ 			
+			}
+			else {
+				const timeoutF = setTimeout(() => {
+   				cartaEfecto[0].className ="carta";
+ 				cartaEfecto[1].className ="carta";
+
+				}, 700);
+				
+			}
+		}
+
+    }else {
+    	//console.log('no tiene atributo')
+    }
+
+    //////////////////////////////////////////////////////////////////valuacion de puntos
+    if(contadorAciertos == contadorCartas){
+    	 
+    	contadorPuntos=(contadorCartas/contadorIntentos)*1000;
+    	console.log(`Tu puntuacion final es ${contadorPuntos}  con ${contadorCartas}  cartas` );
+    }
+    //console.log(`contador cartas: ${contadorCartas}\ncontador intentos: ${contadorIntentos}\ncontador aciertos: ${contadorAciertos}  `)
+
+
+
+
+});
+const comparar=(x , y )=>{
+
+	let tf='';
+	if(x == y ){
+
+		//console.log("son iguales");
+		tf=true
+	}
+	else {
+		//console.log("no son iguales");
+		tf = false
+	}
+    return tf;
+}
+
+//////////////////////////carga de animaciones
  
+const animacion=(e)=>{
+ 	//console.log('Valor es CVF' , e);
+	const animacionCVF=document.getElementById('animacionCVF');
+	animacionCVF.className ="animacionCVF visible";
+ 
+	const tiempox= setTimeout((x) => {
+	    animacionCVF.className ="animacionCVF invisible";
+	},700);	
+
+}
