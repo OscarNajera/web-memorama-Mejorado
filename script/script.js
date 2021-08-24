@@ -9,14 +9,29 @@ const fondo =  document.getElementById('fondo');
 
 const verImg= document.getElementById('ver-img');
 
- 
-
+////////////////////////////////////////////////variables de conteo  
 let contadorIntentos=0;
 let contadorPuntos=0;
 let contadorCartas=0;
 let contadorAciertos=0;
- 
 
+
+///////////////////////////////////////////////Iincio del juego
+
+let enviarN=document.getElementById("enviarN");
+let selecIMG=document.getElementById("seleccion-img")
+let nombre=document.getElementById("nombre");
+
+enviarN.addEventListener("click" , (e)=>{
+	e.preventDefault();
+
+	console.log('coloque un nombre')
+	if (nombre.value != "") {
+		selecIMG.className ="";
+	}else {
+		alert('coloque un nombre')
+	}
+})
 
 
 
@@ -203,7 +218,6 @@ verImg.addEventListener('click', (e)=>{
 
 
 
-
 });
 const comparar=(x , y )=>{
 
@@ -232,3 +246,50 @@ const animacion=(e)=>{
 	},700);	
 
 }
+
+////////////////////////////sessionStorage
+
+
+
+
+let informacionP=[];
+
+const guardarPuntuacion= (nombre, cartas, puntos)=>{
+
+	let  score={
+	  	 	 nombre: nombre,
+	  	 	 cartas: cartas,
+	  	 	 puntos: puntos
+	}
+	informacionP.push(score);
+
+	 localStorage.setItem("puntos", JSON.stringify(informacionP));
+}
+
+
+const obtenerPuntuacion= ()=>{
+ 	 let getpuntos= localStorage.getItem("puntos");
+
+ 	 if(getpuntos == null){
+ 	 	informacionP=[];
+
+ 	 }
+ 	 else{
+ 	 	informacionP=JSON.parse(getpuntos)
+
+ 	 	for(informacion of informacionP){
+ 	 		 console.log(informacion.nombre +" "+ informacion.cartas +" "+ informacion.puntos )
+ 	 	
+ 	 	}
+
+
+ 	 }
+
+ 	 console.log(informacionP)
+
+}
+
+
+
+////////////////////puntuacion
+obtenerPuntuacion()

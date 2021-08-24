@@ -20,7 +20,7 @@
 				<input type="color" id="color">
 			</div>
 		</div>
-		<div class="">
+		<div class="invisible" id="seleccion-img">
 				<input type="file" multiple="" id="carga-img"><br>
 		</div>
 		<div class="contenido-img">
@@ -36,6 +36,44 @@
 	<div class="animacionCVF" id="animacionCVF">
 		<img src="img/cargando.gif" alt="" id="imgAnimacionCVF">
 	</div>
+
+
+	<div class="guardarPuntos" id="guardarPuntos">	
+			<h2>Introdusca sus nombre para iniciar</h2>
+			<form action="#">
+				<div>
+				   <label for="nombre">Nombre </label>
+				   <input type="text" name="nombre" id="nombre">
+				</div>	
+				 
+				<button type="submit" id="enviarN"> Iniciar</button>
+			</form>
+	</div>	
+
+
+	<div class="puntuaciones" id="puntuaciones ">
+		<h1>Puntuaciones</h1>
+
+		<div class="puntuaje"  >
+
+			 <table class="tabla" id="tabla">
+			 	  <tr>
+ 				   <th>NOMBRE</th>
+ 				   <th>CARTAS JUGADAS</th>
+ 				   <th>pUNTOS</th>
+ 				 </tr>
+ 				 <tr>
+  				  <td> </td>
+  				  <td> </td>
+  				  <td></td>
+  				</tr>
+ 				 
+			 </table>	
+
+		</div>
+
+	</div>
+
 </body>
 <script type="text/javascript" src="script/script.js"></script>
 </html>
